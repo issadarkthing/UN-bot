@@ -29,7 +29,7 @@ bot.on("ready", () => {
 });
 
 bot.on("guildMemberUpdate", (oldMember, newMember) => {
-
+    
     boost.execute(oldMember, newMember);
 
 });
