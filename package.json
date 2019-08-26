@@ -1,0 +1,17 @@
+{
+  "name": "un-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "nothing"
+  ],
+  "author": "legendterra",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.6.11"
+  }
+}
