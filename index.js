@@ -1,4 +1,4 @@
-const config = require('./config.json');
+
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
@@ -6,7 +6,7 @@ const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith(
 bot.commands = new Discord.Collection();
 const mongoose = require('mongoose');
 const UNserver = require('./model');
-const prefix = config.prefix;
+const prefix = "$";
 const boost = require('./src/boost');
 
 const token = process.env.token;
