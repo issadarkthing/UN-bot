@@ -7,9 +7,9 @@ module.exports = {
     execute(msg, args){
         let member = msg.guild.members.find(m => m.id === msg.author.id);
         
-        // let verifiedRole = msg.guild.roles.find(m => m.id === "478203252127694864")  //change this later
+        let verifiedRole = msg.guild.roles.find(m => m.id === "478203252127694864")  //change this later
         
-        // if(!member.roles.has(verifiedRole.id)) return msg.reply('Only three people can use this command');
+        if(!member.roles.has(verifiedRole.id)) return msg.reply('Only three people can use this command');
 
         if(!args[1]) return msg.channel.send(`You need to specify which channel you want to use. 
 Example \`$channel #channel\``);
