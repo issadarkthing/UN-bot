@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const UNserver = require('./model');
 const prefix = "$";
 const boost = require('./src/boost');
+const rain = require('./src/rain');
 
 const token = process.env.token;
 const uri = process.env.uri;
@@ -36,6 +37,8 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
 
 bot.on("message", async msg => {
 
+    rain(msg, bot);
+    
     if(msg.author.bot) return;
 
     let args = await msg.content.substring(prefix.length).split(" ");
