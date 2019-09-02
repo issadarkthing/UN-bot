@@ -2,9 +2,9 @@ const UNserver = require('../model');
 const Discord = require('discord.js');
 module.exports = {
 
-    execute(oldMember, newMember){
-        var channelID;
-    let guildID = newMember.guild.id;
+    async execute(oldMember, newMember){
+    var channelID;
+    let guildID = await newMember.guild.id;
 
     UNserver.findOne({ id: guildID }, (err, res) => {
 

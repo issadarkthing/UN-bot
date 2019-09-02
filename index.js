@@ -37,7 +37,7 @@ bot.on("guildMemberUpdate", (oldMember, newMember) => {
 
 bot.on("message", async msg => {
 
-    rain(msg, bot);
+    rain.execute(msg, bot);
     
     if(msg.author.bot) return;
 
