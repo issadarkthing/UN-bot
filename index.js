@@ -56,4 +56,6 @@ bot.on("message", async msg => {
     }
 })
 
+
+
 bot.login(token); //change this later
