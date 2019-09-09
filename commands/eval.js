@@ -23,8 +23,6 @@ module.exports = {
       msg.channel.send(clean(evaled), { code: "xl" });
     } catch (e) {
       msg.channel.send(`\`ERROR\` \`\`\`xl\n${clean(error)}\n\`\`\``);
-    } finally {
-
     }
   }
 }
