@@ -9,7 +9,7 @@ const UNserver = require('./model');
 const prefix = "$";
 const boost = require('./src/boost');
 const rain = require('./src/rain');
-
+const reaction = require('./src/reaction');
 const token = process.env.token;
 const uri = process.env.uri;
 
@@ -30,25 +30,27 @@ bot.on("ready", () => {
 });
 
 bot.on("guildMemberUpdate", (oldMember, newMember) => {
-    
+
     boost.execute(oldMember, newMember);
 
 });
 
 bot.on("message", async msg => {
 
-    rain.execute(msg, bot);
-    
+    // rain.execute(msg, bot);
+
     if(msg.author.bot) return;
 
+    reaction.execute(msg);
+
     let args = await msg.content.substring(prefix.length).split(" ");
-   
+
     const command = bot.commands.get(args[0]) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
 
     if(msg.content.startsWith(prefix) && command) {
         try{
             command.execute(msg, args);
-           
+
         }catch(err){
             console.log(err)
             msg.channel.send('There was an error trying to execute the command!');
