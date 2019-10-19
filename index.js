@@ -12,7 +12,7 @@ const rain = require('./src/rain');
 const reaction = require('./src/reaction');
 const token = process.env.token;
 const uri = process.env.uri;
-const config = require('./config.json');
+// const config = require('./config.json') 
 
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
