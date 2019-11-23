@@ -20,24 +20,29 @@ module.exports = {
     .then(() => {
         let channel = newMember.guild.channels.find(c => c.id === channelID);
 
-        let emoji = channel.guild.emojis.find(e => e.name === "boost");
-        let gbEmoji = channel.guild.emojis.find(e => e.name === "gb") || "";
-        let HCEmoji = channel.guild.emojis.find(e => e.name === "hc") || "";
-        let nitroEmoji = channel.guild.emojis.find(e => e.name === "nitro") || "";
-        let everyone = channel.guild.defaultRole;
+        const emoji = channel.guild.emojis.find(e => e.name === "boosting");
+        const gbEmoji = channel.guild.emojis.find(e => e.id === "479631989335654430");
+        const HCEmoji = channel.guild.emojis.find(e => e.id === "606919195279491118");
+        const nitroEmoji = channel.guild.emojis.find(e => e.id === "616293973484371988");
+        const everyone = channel.guild.defaultRole;
 
     
         if(oldMember.roles.has('593354032005775373') === false && newMember.roles.has('593354032005775373') === true){ //change this later
-            let member = newMember.user;
+            const member = newMember.user;
             
-            let embed = new Discord.RichEmbed()
+            const embed = new Discord.RichEmbed()
             .setColor('3232FF')
             .setThumbnail(member.avatarURL)
             .addField(`${nitroEmoji} 🎉 ${newMember.displayName} just boosted the server! 🎉`, `
 Thank you for contributing, you will receive your own unique emoji, updated nickname, 50c ${gbEmoji} and 31 days of HC ${HCEmoji}`);
             channel.send(`**Announcement** ${everyone}`);
             channel.send(embed)
-            .then(m => m.react('😱').then(() => m.react('❤')).then(() => m.react('😍')).then(() => m.react('🔥')).then(() => m.react('🍌')));
+            .then(m => m.react('😱')
+            .then(() => m.react('❤'))
+            .then(() => m.react('😍'))
+            .then(() => m.react('🔥'))
+            .then(() => m.react('🍌'))
+            .then(() => m.react(emoji)))
 
         }
     })
