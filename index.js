@@ -12,7 +12,7 @@ const rain = require('./src/rain');
 const alpha = require('./src/alpha');
 const token = process.env.token;
 const uri = process.env.uri;
-const config = require('./config.json') 
+// const config = require('./config.json') 
 
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
@@ -22,7 +22,7 @@ for(const file of commandFiles){
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
-mongoose.connect(config.uri, {useNewUrlParser: true}); //change this later
+mongoose.connect(uri, {useNewUrlParser: true}); //change this later
 
 
 bot.on("ready", () => {
@@ -62,4 +62,4 @@ bot.on("message", async msg => {
 
 
 
-bot.login(config.token); //change this later
+bot.login(token); //change this later

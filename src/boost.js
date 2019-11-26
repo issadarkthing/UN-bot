@@ -1,4 +1,4 @@
-const UNserver = require('../model');
+
 const Discord = require('discord.js');
 
 module.exports = {
