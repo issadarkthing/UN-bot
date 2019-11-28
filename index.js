@@ -45,7 +45,10 @@ bot.on("message", async msg => {
 
     const args = await msg.content.substring(prefix.length).split(" ");
 
-    alpha.execute(msg, args);
+    if(msg.channel.type === "dm"){
+        alpha.execute(msg, args);
+    }
+    
 
     const command = bot.commands.get(args[0]) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
 
