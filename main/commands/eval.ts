@@ -1,9 +1,11 @@
+import Discord from 'discord.js'
 
-module.exports = {
+
+export default {
   name: 'eval',
-  execute(msg, args){
+  execute(msg: Discord.Message, args: string[]) {
 
-    const clean = text => {
+    const clean = (text: string ) => {
       if(typeof(text) === "string")
         return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
       else
@@ -22,7 +24,7 @@ module.exports = {
 
       msg.channel.send(clean(evaled), { code: "xl" });
     } catch (e) {
-      msg.channel.send(`\`ERROR\` \`\`\`xl\n${clean(error)}\n\`\`\``);
+      msg.channel.send(`\`ERROR\` \`\`\`xl\n${clean(e)}\n\`\`\``);
     }
   }
 }
