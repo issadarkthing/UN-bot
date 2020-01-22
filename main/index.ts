@@ -7,7 +7,16 @@ const bot = new Discord.Client();
 const commandFiles = fs.readdirSync(__dirname + '\\commands').filter(file => file.endsWith('.js'));
 const token = process.env.token || ""
 const commands = new Discord.Collection<string, Command>();
-const PREFIX = "$";
+
+
+export const config = {
+    PREFIX: "$",
+    SERVER_ID: "612515458767388698",
+    CHANNEL_ID: "669445934182170624",
+    BOOST_ROLE_ID: "669450560310607882",
+    ADMIN_ID: "264010327023288323"
+}
+
 
 
 
@@ -45,7 +54,7 @@ bot.on("message", async msg => {
     if(msg.author.bot) return;
     
 
-    const args = msg.content.substring(PREFIX.length).split(" ");
+    const args = msg.content.substring(config.PREFIX.length).split(" ");
 
     if(msg.channel.type === "dm"){
         boost.execute({ msg, args });
@@ -54,7 +63,7 @@ bot.on("message", async msg => {
 
     const command = commands.get(args[0]) || commands.find(cmd => cmd.aliases?.includes(args[0]) || false );
 
-    if(msg.content.startsWith(PREFIX) && command) {
+    if(msg.content.startsWith(config.PREFIX) && command) {
         try{
             command.execute(msg, args);
             

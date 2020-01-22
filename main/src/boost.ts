@@ -1,4 +1,5 @@
 import Discord from "discord.js";
+import { config } from '../index'
 
 export default {
   async execute({
@@ -12,30 +13,30 @@ export default {
     msg?: Discord.Message;
     args?: string[];
   } = {}) {
-    const SERVER_ID = "612515458767388698";
-    const CHANNEL_ID = "669445934182170624";
-    const BOOST_ROLE_ID = "669450560310607882"
+
 
     let channel: Discord.GuildChannel;
     let member: Discord.GuildMember;
 
 
+
+
     if (msg && args) {
 
       if (msg.author.id !== "264010327023288323" && args[0] !== "boost") return;
-      const _channel = msg.client.guilds.get(SERVER_ID)?.channels.get(CHANNEL_ID);
+      const _channel = msg.client.guilds.get(config.SERVER_ID)?.channels.get(config.CHANNEL_ID);
       if (!_channel) throw Error("Channel not found");
       channel = _channel;
-      const _member = msg.client.guilds.get(SERVER_ID)?.members.get(args[1]);
+      const _member = msg.client.guilds.get(config.SERVER_ID)?.members.get(args[1]);
       if (!_member) return msg.channel.send("Member not found");
       member = _member;
 
     } else if (
-      oldMember?.roles.has(BOOST_ROLE_ID) === false &&
-      newMember?.roles.has(BOOST_ROLE_ID) === true
+      oldMember?.roles.has(config.BOOST_ROLE_ID) === false &&
+      newMember?.roles.has(config.BOOST_ROLE_ID) === true
     ) {
 
-      const _channel = newMember.client.guilds.get(SERVER_ID)?.channels.get(CHANNEL_ID);
+      const _channel = newMember.client.guilds.get(config.SERVER_ID)?.channels.get(config.CHANNEL_ID);
       if (!_channel) throw Error("Channel not found");
       channel = _channel;
       member = newMember;
