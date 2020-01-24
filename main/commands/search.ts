@@ -2,26 +2,25 @@ import cheerio from 'cheerio'
 import Discord from 'discord.js'
 import request from 'request'
 
+export const rolesColor = {
+  agent: "#3232FF",
+  security: "#595959",
+  trainers: "#006600",
+  operations: "#c68c53",
+  high_management: "#b30000",
+  senior_management: "#e68a00",
+  leadership: "#993399",
+  government: "#6699ff",
+  moderator: "#993399",
+  office_of_administration: "#4d4d4d",
+  ownership: "#0d0d0d"
+}
+
 export default {
   name: "search",
   async execute(msg: Discord.Message, args: string[]) {
 
     const url = "https://habboun.com/user/" + args[1].toLowerCase();
-
-    const rolesColor = {
-      agent: "#3232FF",
-      security: "#595959",
-      trainers: "#006600",
-      operations: "#c68c53",
-      high_management: "#b30000",
-      senior_management: "#e68a00",
-      leadership: "#993399",
-      government: "#6699ff",
-      moderator: "#993399",
-      office_of_administration: "#4d4d4d",
-      ownership: "#0d0d0d"
-    }
-    
 
     request(url, (err: Error, res, body) => {
 
@@ -72,11 +71,15 @@ export default {
     })
 
 
-
-    function setColor(achivedRoles: string) {
-      const ranks = achivedRoles.split(',').map(x => x.trim())
-      const keyColor = ranks[1].toLowerCase().slice(3).trim().replace(/\s/mg, "_")
-      return rolesColor[/ownership/ig.test(keyColor) ? "ownership" : keyColor as keyof typeof rolesColor]
-    }
   }
 } 
+
+export function setColor(achivedRoles: string) {
+  const keyColor = getRank(achivedRoles)
+  return rolesColor[/ownership/ig.test(keyColor) ? "ownership" : keyColor as keyof typeof rolesColor]
+}
+
+export function getRank(achivedRoles: string) {
+  const ranks = achivedRoles.split(',').map(x => x.trim())
+  return ranks[1].toLowerCase().slice(3).trim().replace(/\s/mg, "_")
+}

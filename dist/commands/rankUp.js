@@ -39,46 +39,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var discord_js_1 = __importDefault(require("discord.js"));
-var fs_1 = __importDefault(require("fs"));
-var boost_1 = __importDefault(require("./src/boost"));
-var bot = new discord_js_1.default.Client();
-var commandFiles = fs_1.default.readdirSync(__dirname + '\\commands').filter(function (file) { return file.endsWith('.js'); });
-var TOKEN = process.env.token || "";
-var commands = new discord_js_1.default.Collection();
-var PREFIX = process.env.PREFIX || "$";
-for (var _i = 0, commandFiles_1 = commandFiles; _i < commandFiles_1.length; _i++) {
-    var file = commandFiles_1[_i];
-    var command = require("./commands/" + file);
-    commands.set(command.default.name, command.default);
+var request_1 = __importDefault(require("request"));
+var cheerio_1 = __importDefault(require("cheerio"));
+var search_1 = require("./search");
+var rolesId = new Map();
+var _rolesId = [
+    "669579373052952578",
+    "669579372667076608",
+    "669579371828215828",
+    "669579371119378442",
+    "669579370288906251",
+    "669579369399975954",
+    "669579368552595477",
+    "669579367659077662",
+    "669579366719553556",
+    "669579365780029441",
+    "669579362806398996"
+];
+var i = 0;
+for (var role in search_1.setColor) {
+    rolesId.set(role, _rolesId[i]);
+    i++;
 }
-bot.on("ready", function () {
-    console.log('Bot has started!');
-    bot.user.setActivity("Habbo", { type: "PLAYING" });
-});
-bot.on("guildMemberUpdate", function (oldMember, newMember) {
-    boost_1.default.execute({ oldMember: oldMember, newMember: newMember });
-});
-bot.on("message", function (msg) { return __awaiter(void 0, void 0, void 0, function () {
-    var args, command;
-    return __generator(this, function (_a) {
-        if (msg.author.bot)
-            return [2 /*return*/];
-        args = msg.content.substring(PREFIX.length).split(" ");
-        if (msg.channel.type === "dm") {
-            boost_1.default.execute({ msg: msg, args: args });
-        }
-        command = commands.get(args[0]) || commands.find(function (cmd) { var _a; return ((_a = cmd.aliases) === null || _a === void 0 ? void 0 : _a.includes(args[0])) || false; });
-        if (msg.content.startsWith(PREFIX) && command) {
-            try {
-                command.execute(msg, args);
-            }
-            catch (err) {
-                console.log(err);
-                msg.channel.send('There was an error trying to execute the command!');
-            }
-        }
-        return [2 /*return*/];
-    });
-}); });
-bot.login(TOKEN);
+exports.default = {
+    name: "rankup",
+    execute: function (msg, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                if (!args[1])
+                    return [2 /*return*/, msg.channel.send("You need to specify a habboUN username.")];
+                url = "https://habboun.com/user/" + args[1].toLowerCase();
+                if (!msg.member.roles.some(function (v) { return _rolesId.includes(v.id); }))
+                    return [2 /*return*/, msg.channel.send("Need to have at least one UN role")];
+                request_1.default(url, function (err, res, body) {
+                    if (err || res.statusCode !== 200)
+                        return msg.channel.send("Error in fetching data");
+                    var $ = cheerio_1.default.load(body);
+                    var ranks = $(".pane-user-roles div.pane-content").text().trim();
+                    var rankName = search_1.getRank(ranks);
+                    var selectedRoleId = rolesId.get(rankName);
+                    if (msg.member.roles.has(selectedRoleId))
+                        return msg.channel.send("You already have the role");
+                    try {
+                        msg.member.addRole(selectedRoleId, "Ranked up to " + rankName);
+                    }
+                    catch (error) {
+                        msg.channel.send("Need 'Manage roles' permission");
+                    }
+                    msg.channel.send("Congratulations on ranking up to " + ranks.split(",")[1].trim());
+                });
+                return [2 /*return*/];
+            });
+        });
+    }
+};

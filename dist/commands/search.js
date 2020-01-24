@@ -42,31 +42,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var cheerio_1 = __importDefault(require("cheerio"));
 var discord_js_1 = __importDefault(require("discord.js"));
 var request_1 = __importDefault(require("request"));
+exports.rolesColor = {
+    agent: "#3232FF",
+    security: "#595959",
+    trainers: "#006600",
+    operations: "#c68c53",
+    high_management: "#b30000",
+    senior_management: "#e68a00",
+    leadership: "#993399",
+    government: "#6699ff",
+    moderator: "#993399",
+    office_of_administration: "#4d4d4d",
+    ownership: "#0d0d0d"
+};
 exports.default = {
     name: "search",
     execute: function (msg, args) {
         return __awaiter(this, void 0, void 0, function () {
-            function setColor(achivedRoles) {
-                var ranks = achivedRoles.split(',').map(function (x) { return x.trim(); });
-                var keyColor = ranks[1].toLowerCase().slice(3).trim().replace(/\s/mg, "_");
-                return rolesColor[/ownership/ig.test(keyColor) ? "ownership" : keyColor];
-            }
-            var url, rolesColor;
+            var url;
             return __generator(this, function (_a) {
                 url = "https://habboun.com/user/" + args[1].toLowerCase();
-                rolesColor = {
-                    agent: "#3232FF",
-                    security: "#595959",
-                    trainers: "#006600",
-                    operations: "#c68c53",
-                    high_management: "#b30000",
-                    senior_management: "#e68a00",
-                    leadership: "#993399",
-                    government: "#6699ff",
-                    moderator: "#993399",
-                    office_of_administration: "#4d4d4d",
-                    ownership: "#0d0d0d"
-                };
                 request_1.default(url, function (err, res, body) {
                     var _a;
                     if (err || res.statusCode !== 200)
@@ -105,3 +100,13 @@ exports.default = {
         });
     }
 };
+function setColor(achivedRoles) {
+    var keyColor = getRank(achivedRoles);
+    return exports.rolesColor[/ownership/ig.test(keyColor) ? "ownership" : keyColor];
+}
+exports.setColor = setColor;
+function getRank(achivedRoles) {
+    var ranks = achivedRoles.split(',').map(function (x) { return x.trim(); });
+    return ranks[1].toLowerCase().slice(3).trim().replace(/\s/mg, "_");
+}
+exports.getRank = getRank;

@@ -45,13 +45,16 @@ exports.default = {
         var _b = _a === void 0 ? {} : _a, oldMember = _b.oldMember, newMember = _b.newMember, msg = _b.msg, args = _b.args;
         var _c, _d, _e, _f, _g;
         return __awaiter(this, void 0, void 0, function () {
-            var SERVER_ID, CHANNEL_ID, BOOST_ROLE_ID, channel, member, _channel, _member, _channel, emoji, gbEmoji, HCEmoji, nitroEmoji, everyone, embed;
+            var channel, member, SERVER_ID, CHANNEL_ID, BOOST_ROLE_ID, ADMIN_ID, _channel, _member, _channel, emoji, gbEmoji, HCEmoji, nitroEmoji, everyone, embed;
             return __generator(this, function (_h) {
-                SERVER_ID = "612515458767388698";
-                CHANNEL_ID = "669445934182170624";
-                BOOST_ROLE_ID = "669450560310607882";
+                SERVER_ID = process.env.SERVER_ID;
+                CHANNEL_ID = process.env.CHANNEL_ID;
+                BOOST_ROLE_ID = process.env.BOOST_ROLE_ID;
+                ADMIN_ID = process.env.BOOST_ROLE_ID;
+                if (!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID)
+                    throw Error("No process env specified");
                 if (msg && args) {
-                    if (msg.author.id !== "264010327023288323" && args[0] !== "boost")
+                    if (msg.author.id !== ADMIN_ID && args[0] !== "boost")
                         return [2 /*return*/];
                     _channel = (_c = msg.client.guilds.get(SERVER_ID)) === null || _c === void 0 ? void 0 : _c.channels.get(CHANNEL_ID);
                     if (!_channel)
@@ -81,7 +84,12 @@ exports.default = {
                     .setColor("3232FF")
                     .setThumbnail(member.user.avatarURL)
                     .addField(nitroEmoji + " \uD83C\uDF89 " + member.displayName + " just boosted the server! \uD83C\uDF89", "\nThank you for contributing, you will receive your own unique emoji, updated nickname, 50c " + gbEmoji + " and 31 days of HC " + HCEmoji);
-                channel.send("**Announcement** " + everyone);
+                channel.send("**Announcement** " + everyone)
+                    .catch(function (e) {
+                    var _a, _b;
+                    console.log(e);
+                    (_b = (_a = msg) === null || _a === void 0 ? void 0 : _a.guild.members.get(ADMIN_ID)) === null || _b === void 0 ? void 0 : _b.send("No permission to send in announcement channel");
+                });
                 channel.send(embed).then(function (m) {
                     return m
                         .react("😱")
