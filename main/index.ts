@@ -4,7 +4,7 @@ import boost from './src/boost'
 
 
 const bot = new Discord.Client();
-const commandFiles = fs.readdirSync(__dirname + '\\commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const TOKEN = process.env.TOKEN || ""
 const commands = new Discord.Collection<string, Command>();
 
