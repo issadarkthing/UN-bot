@@ -44,7 +44,7 @@ var fs_1 = __importDefault(require("fs"));
 var boost_1 = __importDefault(require("./src/boost"));
 var bot = new discord_js_1.default.Client();
 var commandFiles = fs_1.default.readdirSync(__dirname + '\\commands').filter(function (file) { return file.endsWith('.js'); });
-var TOKEN = process.env.token || "";
+var TOKEN = process.env.TOKEN || "";
 var commands = new discord_js_1.default.Collection();
 var PREFIX = process.env.PREFIX || "$";
 for (var _i = 0, commandFiles_1 = commandFiles; _i < commandFiles_1.length; _i++) {

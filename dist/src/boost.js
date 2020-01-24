@@ -86,9 +86,7 @@ exports.default = {
                     .addField(nitroEmoji + " \uD83C\uDF89 " + member.displayName + " just boosted the server! \uD83C\uDF89", "\nThank you for contributing, you will receive your own unique emoji, updated nickname, 50c " + gbEmoji + " and 31 days of HC " + HCEmoji);
                 channel.send("**Announcement** " + everyone)
                     .catch(function (e) {
-                    var _a, _b;
                     console.log(e);
-                    (_b = (_a = msg) === null || _a === void 0 ? void 0 : _a.guild.members.get(ADMIN_ID)) === null || _b === void 0 ? void 0 : _b.send("No permission to send in announcement channel");
                 });
                 channel.send(embed).then(function (m) {
                     return m
