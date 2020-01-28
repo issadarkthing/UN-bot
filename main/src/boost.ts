@@ -23,12 +23,18 @@ export default {
     const BOOST_ROLE_ID = process.env.BOOST_ROLE_ID
     const ADMIN_ID = process.env.BOOST_ROLE_ID
 
+    const Tiing_id = "378745839947874304"
+    const cyndii_id = "292019603544997888"
+    const purple_id = "478042194322915329"
+
+    const ADMINS_ID = [Tiing_id, cyndii_id, purple_id, <string>ADMIN_ID]
+
     if(!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID) throw Error("No process env specified")
 
 
     if (msg && args) {
 
-      if (msg.author.id !== ADMIN_ID && args[0] !== "boost") return;
+      if (ADMINS_ID.includes(msg.author.id) && args[0] !== "boost") return;
       const _channel = msg.client.guilds.get(SERVER_ID)?.channels.get(CHANNEL_ID);
       if (!_channel) throw Error("Channel not found");
       channel = _channel;

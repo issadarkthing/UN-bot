@@ -45,16 +45,20 @@ exports.default = {
         var _b = _a === void 0 ? {} : _a, oldMember = _b.oldMember, newMember = _b.newMember, msg = _b.msg, args = _b.args;
         var _c, _d, _e, _f, _g;
         return __awaiter(this, void 0, void 0, function () {
-            var channel, member, SERVER_ID, CHANNEL_ID, BOOST_ROLE_ID, ADMIN_ID, _channel, _member, _channel, emoji, gbEmoji, HCEmoji, nitroEmoji, everyone, embed;
+            var channel, member, SERVER_ID, CHANNEL_ID, BOOST_ROLE_ID, ADMIN_ID, Tiing_id, cyndii_id, purple_id, ADMINS_ID, _channel, _member, _channel, emoji, gbEmoji, HCEmoji, nitroEmoji, everyone, embed;
             return __generator(this, function (_h) {
                 SERVER_ID = process.env.SERVER_ID;
                 CHANNEL_ID = process.env.CHANNEL_ID;
                 BOOST_ROLE_ID = process.env.BOOST_ROLE_ID;
                 ADMIN_ID = process.env.BOOST_ROLE_ID;
+                Tiing_id = "378745839947874304";
+                cyndii_id = "292019603544997888";
+                purple_id = "478042194322915329";
+                ADMINS_ID = [Tiing_id, cyndii_id, purple_id, ADMIN_ID];
                 if (!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID)
                     throw Error("No process env specified");
                 if (msg && args) {
-                    if (msg.author.id !== ADMIN_ID && args[0] !== "boost")
+                    if (ADMINS_ID.includes(msg.author.id) && args[0] !== "boost")
                         return [2 /*return*/];
                     _channel = (_c = msg.client.guilds.get(SERVER_ID)) === null || _c === void 0 ? void 0 : _c.channels.get(CHANNEL_ID);
                     if (!_channel)
