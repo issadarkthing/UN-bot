@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "build-start": "tsc & node -r dotenv/config ./dist/index.js"
+    "build-start": "tsc & node -r dotenv/config ./dist/index.js",
+	"build": "tsc"
   },
   "keywords": [
     "nothing"
