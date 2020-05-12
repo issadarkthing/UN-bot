@@ -5,22 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "build-start": "tsc & node -r dotenv/config ./dist/index.js",
-	"build": "tsc"
+    "start": "nodemon -r dotenv/config ./dist/index.js",
+    "build": "tsc"
   },
   "keywords": [
     "nothing"
   ],
   "author": "legendterra",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "@types/cheerio": "^0.22.15",
-    "@types/mongoose": "^5.5.42",
-    "@types/request": "^2.48.4",
-    "cheerio": "^1.0.0-rc.3",
     "discord.js": "^11.5.1",
-    "dotenv": "^8.2.0",
-    "mongoose": "^5.6.11",
-    "request": "^2.88.0"
+    "mongoose": "^5.9.13"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.7.16",
+    "@types/node": "^13.13.5",
+    "dotenv": "^8.2.0"
   }
 }

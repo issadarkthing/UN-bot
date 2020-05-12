@@ -1,5 +1,8 @@
 import Discord, { BaseOpus } from "discord.js";
 
+export const Tiing_id = "378745839947874304"
+export const cyndii_id = "292019603544997888"
+export const purple_id = "478042194322915329"
 
 export default {
   async execute({
@@ -23,11 +26,8 @@ export default {
     const BOOST_ROLE_ID = process.env.BOOST_ROLE_ID
     const ADMIN_ID = process.env.BOOST_ROLE_ID
 
-    const Tiing_id = "378745839947874304"
-    const cyndii_id = "292019603544997888"
-    const purple_id = "478042194322915329"
 
-    const ADMINS_ID = [Tiing_id, cyndii_id, purple_id, <string>ADMIN_ID]
+    const ADMINS_ID = [Tiing_id, cyndii_id, purple_id, ADMIN_ID]
 
     if(!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID) throw Error("No process env specified")
 
@@ -54,7 +54,7 @@ export default {
 
     } else return;
 
-    
+
 
     const emoji = channel.guild.emojis.find(e => e.name === "boosting") || "";
     const gbEmoji =
