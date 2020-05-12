@@ -28,6 +28,7 @@ async function timerUpdate(bot: Discord.Client) {
 
 		if (timeLeft <= periods.minute) {
 			message.completed = true;
+			msg.edit('`0h : 0m`')
 		} else {
 			msg.edit(`\`${convert(timeLeft)}\``);
 		}
