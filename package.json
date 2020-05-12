@@ -2,7 +2,7 @@
   "name": "un-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "test",
     "start": "nodemon -r dotenv/config ./dist/index.js",
@@ -15,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^11.5.1",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.9.13",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/mongoose": "^5.7.16",
