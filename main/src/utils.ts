@@ -7,6 +7,17 @@ export const periods: { [key: string]: number } = {
 	minute: 60 * 1000
 };
 
+export const big_three_id = {
+	Tiing_id: "378745839947874304",
+	cyndii_id: "292019603544997888",
+	purple_id: "478042194322915329",
+}
+
+export const role_id = {
+	ooa_id: "588651986786975744",
+	owner_id: "378745839947874304"
+}
+
 export const timeAbbv: { [key: string]: string } = {
 	Y: "year",
 	M: "month",

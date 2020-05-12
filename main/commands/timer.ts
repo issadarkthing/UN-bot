@@ -1,11 +1,32 @@
 import Discord from "discord.js";
 import { timerDb, TimerDb } from "../structure/Timer";
 import { Types } from "mongoose";
-import { periods, convert, timeAbbv, color } from "../src/utils";
+import {
+	periods,
+	convert,
+	timeAbbv,
+	color,
+	big_three_id,
+	role_id
+} from "../src/utils";
 
 export default {
 	name: "timer",
 	async execute(msg: Discord.Message, args: string[]) {
+		let hasValidRole = false;
+		for (const key in role_id) {
+			hasValidRole = msg.member.roles.has(key);
+		}
+
+		if (
+			!(msg.author.id in big_three_id) &&
+			!hasValidRole &&
+			msg.author.id !== process.env.ADMIN_ID
+		)
+			return;
+		//validation
+
+
 		if (!args[1]) return msg.channel.send("Usage: `$timer 1h`");
 		if (args[1] === "all") return timerAll(msg);
 		if (args[1] === "cancel") return cancelTimer(args, msg);
@@ -120,7 +141,10 @@ async function cancelTimer(args: string[], msg: Discord.Message) {
 	timer.save();
 
 	const infoEmbed = new Discord.RichEmbed()
-	.setColor(color.blue)
-	.addField("Timer cancellation succeed", `[Timer](${timer.messageUrl}) has been cancelled`)
+		.setColor(color.blue)
+		.addField(
+			"Timer cancellation succeed",
+			`[Timer](${timer.messageUrl}) has been cancelled`
+		);
 	msg.channel.send(infoEmbed);
 }
