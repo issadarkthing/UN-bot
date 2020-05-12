@@ -1,6 +1,5 @@
 import Discord, { BaseOpus } from "discord.js";
-import { Tiing_id, cyndii_id, purple_id } from "./utils";
-
+import { big_three_id } from "./utils";
 
 export default {
 	async execute({
@@ -22,13 +21,17 @@ export default {
 		const BOOST_ROLE_ID = process.env.BOOST_ROLE_ID;
 		const ADMIN_ID = process.env.ADMIN_ID;
 
-		const ADMINS_ID = [Tiing_id, cyndii_id, purple_id, ADMIN_ID];
+		const ADMINS_ID = Object.keys(big_three_id);
 
 		if (!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID)
 			throw Error("No process env specified");
 
 		if (msg && args) {
-			if (!ADMINS_ID.includes(msg.author.id) && args[0] !== "boost")
+			if (
+				!ADMINS_ID.includes(msg.author.id) &&
+				args[0] !== "boost" &&
+				msg.author.id !== ADMIN_ID
+			)
 				return;
 			const _channel = msg.client.guilds
 				.get(SERVER_ID)
