@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "test",
-    "start": "nodemon -r dotenv/config ./dist/index.js",
+    "start": "node -r dotenv/config ./dist/index.js",
+	"watch": "nodemon -r dotenv/config ./dist/index.js",
     "build": "tsc"
   },
   "keywords": [
