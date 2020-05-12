@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
+  "engines": {
+	"node": "13.9.x",
+	"npm": "6.x"
+  },
   "scripts": {
     "test": "test",
     "start": "nodemon -r dotenv/config ./dist/index.js",
