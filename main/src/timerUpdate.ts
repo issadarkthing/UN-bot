@@ -1,6 +1,6 @@
 import { timerDb, TimerDb } from "../structure/Timer";
 import Discord from "discord.js";
-import { convert, periods } from "./utils";
+import { convert, periods, countdownBanner } from "./utils";
 
 async function timerUpdate(bot: Discord.Client) {
 	const messages = ((await timerDb.find({
@@ -28,9 +28,11 @@ async function timerUpdate(bot: Discord.Client) {
 
 		if (timeLeft <= periods.minute) {
 			message.completed = true;
-			msg.edit('`0h : 0m`')
+			const countdown = '0h : 0m'
+			msg.edit(countdownBanner(countdown, message.username))
 		} else {
-			msg.edit(`\`${convert(timeLeft)}\``);
+			const countdown = convert(timeLeft)
+			msg.edit(countdownBanner(countdown, message.username))
 		}
 
 		message.save();

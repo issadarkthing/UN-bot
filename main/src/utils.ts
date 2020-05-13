@@ -1,3 +1,6 @@
+import { TimerDb } from "../structure/Timer";
+import Discord from "discord.js"
+
 export const periods: { [key: string]: number } = {
 	year: 12 * 30 * 24 * 60 * 60 * 1000,
 	month: 30 * 24 * 60 * 60 * 1000,
@@ -6,6 +9,16 @@ export const periods: { [key: string]: number } = {
 	hour: 60 * 60 * 1000,
 	minute: 60 * 1000
 };
+
+
+export function countdownBanner(message: string, createdBy: string) {
+
+	return new Discord.RichEmbed()
+		.setColor(color.blue)
+		.addField("Countdown", `\`${message}\``, true)
+		.addField("Created by", createdBy, true)
+
+}
 
 export const big_three_id = {
 	Tiing_id: "378745839947874304",

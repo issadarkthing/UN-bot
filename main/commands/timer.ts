@@ -7,7 +7,8 @@ import {
 	timeAbbv,
 	color,
 	big_three_id,
-	role_id
+	role_id,
+    countdownBanner
 } from "../src/utils";
 
 export default {
@@ -43,7 +44,8 @@ export default {
 			return;
 		}
 
-		const timerMsg = await msg.channel.send(`\`${convert(duration)}\``);
+		const countdown = convert(duration)
+		const timerMsg = await msg.channel.send(countdownBanner(countdown, msg.author.username));
 
 		const timer = new timerDb({
 			_id: Types.ObjectId(),
