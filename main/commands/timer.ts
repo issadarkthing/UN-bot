@@ -14,13 +14,14 @@ import {
 export default {
 	name: "timer",
 	async execute(msg: Discord.Message, args: string[]) {
+
 		let hasValidRole = false;
 		for (const key in role_id) {
-			hasValidRole = msg.member.roles.has(key);
+			hasValidRole = msg.member.roles.has(role_id[key]);
 		}
 
 		if (
-			!(msg.author.id in big_three_id) &&
+			!(Object.values(big_three_id).includes(msg.author.id)) &&
 			!hasValidRole &&
 			msg.author.id !== process.env.ADMIN_ID
 		)

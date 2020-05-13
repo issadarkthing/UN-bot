@@ -26,7 +26,7 @@ export const big_three_id = {
 	purple_id: "478042194322915329",
 }
 
-export const role_id = {
+export const role_id: { [key: string]: string } = {
 	ooa_id: "588651986786975744",
 	owner_id: "378745839947874304"
 }
