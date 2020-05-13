@@ -8,26 +8,24 @@ import {
 	color,
 	big_three_id,
 	role_id,
-    countdownBanner
+	countdownBanner
 } from "../src/utils";
 
 export default {
 	name: "timer",
 	async execute(msg: Discord.Message, args: string[]) {
-
 		let hasValidRole = false;
 		for (const key in role_id) {
 			hasValidRole = msg.member.roles.has(role_id[key]);
 		}
 
 		if (
-			!(Object.values(big_three_id).includes(msg.author.id)) &&
+			!Object.values(big_three_id).includes(msg.author.id) &&
 			!hasValidRole &&
 			msg.author.id !== process.env.ADMIN_ID
 		)
 			return;
 		//validation
-
 
 		if (!args[1]) return msg.channel.send("Usage: `$timer 1h`");
 		if (args[1] === "all") return timerAll(msg);
@@ -45,8 +43,35 @@ export default {
 			return;
 		}
 
-		const countdown = convert(duration)
-		const timerMsg = await msg.channel.send(countdownBanner(countdown, msg.author.username));
+		const getMessageEmbed = new Discord.RichEmbed()
+			.setColor(color.blue)
+			.addField("Description", `Please add description for this timer`);
+
+		await msg.channel.send(getMessageEmbed);
+
+
+		const filter = (m: Discord.Message) => m.author.id === msg.author.id;
+
+		let description: string;
+
+		try {
+			const collected = await msg.channel.awaitMessages(filter, {
+				max: 1,
+				time: periods.minute,
+				errors: ["time"]
+			});
+
+			description = collected.first().content
+
+		} catch {
+			msg.channel.send("Time's up, timer cancelled");
+			return;
+		}
+
+		const countdown = convert(duration);
+		const timerMsg = await msg.channel.send(
+			countdownBanner(countdown, msg.author.username, description)
+		);
 
 		const timer = new timerDb({
 			_id: Types.ObjectId(),
@@ -54,6 +79,7 @@ export default {
 			guildId: timerMsg.guild.id,
 			timePosted: currTime,
 			username: msg.author.username,
+			description,
 			duration,
 			messageId: timerMsg.id,
 			messageUrl: timerMsg.url,
@@ -113,7 +139,8 @@ async function cancelTimer(args: string[], msg: Discord.Message) {
 	})) as any) as TimerDb;
 	if (!timer) return msg.channel.send("Timer id given does not exists");
 
-	const filter = (m: Discord.Message) => m.content.includes("yes");
+	const filter = (m: Discord.Message) =>
+		m.content.includes("yes") && m.author.id === msg.author.id;
 
 	const confirmEmbed = new Discord.RichEmbed()
 		.setColor(color.blue)

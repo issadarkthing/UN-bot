@@ -9,6 +9,7 @@ const schema = new Schema({
 	username: String,
 	duration: Number,
 	messageId: String,
+	description: String,
 	messageUrl: String,
 	channelId: String,
 	completed: Boolean
@@ -25,6 +26,7 @@ export interface TimerDb {
 	username: string;
 	duration: number;
 	messageId: string;
+	description: string;
 	messageUrl: string;
 	channelId: string;
 	completed: boolean;

@@ -11,12 +11,13 @@ export const periods: { [key: string]: number } = {
 };
 
 
-export function countdownBanner(message: string, createdBy: string) {
+export function countdownBanner(message: string, createdBy: string, description: string) {
 
 	return new Discord.RichEmbed()
 		.setColor(color.blue)
-		.addField("Countdown", `\`${message}\``, true)
-		.addField("Created by", createdBy, true)
+		.addField("Description", description)
+		.addField("Countdown", `\`${message}\``)
+		.setFooter("Created by " + createdBy)
 
 }
 

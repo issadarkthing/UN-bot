@@ -29,10 +29,10 @@ async function timerUpdate(bot: Discord.Client) {
 		if (timeLeft <= periods.minute) {
 			message.completed = true;
 			const countdown = '0h : 0m'
-			msg.edit(countdownBanner(countdown, message.username))
+			msg.edit(countdownBanner(countdown, message.username, message.description))
 		} else {
 			const countdown = convert(timeLeft)
-			msg.edit(countdownBanner(countdown, message.username))
+			msg.edit(countdownBanner(countdown, message.username, message.description))
 		}
 
 		message.save();
