@@ -30,6 +30,9 @@ async function timerUpdate(bot: Discord.Client) {
 			message.completed = true;
 			const countdown = '0h : 0m'
 			msg.edit(countdownBanner(countdown, message.username, message.description))
+			const roles = message.rolesId.map(x => `<@&${x}>`).join(" ")
+			const everyone = message.mentionEveryone ? " @everyone" : ""
+			msg.channel.send("Countdown ended " + roles + everyone)
 		} else {
 			const countdown = convert(timeLeft)
 			msg.edit(countdownBanner(countdown, message.username, message.description))

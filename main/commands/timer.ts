@@ -43,34 +43,45 @@ export default {
 			return;
 		}
 
-		const getMessageEmbed = new Discord.RichEmbed()
-			.setColor(color.blue)
-			.addField("Description", `Please add description for this timer`);
+		const description = await getInput(
+			"Description",
+			"Please add description for this timer",
+			msg
+		);
 
-		await msg.channel.send(getMessageEmbed);
+		if (description.content.length > 100)
+			return msg.channel.send("Description too long. Timer cancelled");
+
+		const roleMention = await getInput(
+			"Role Mentions",
+			"Please select **roles** to be mentioned by mentioning multiple roles",
+			msg
+		);
+
+		const selectedRoles = Array.from(roleMention.mentions.roles.keys());
 
 
-		const filter = (m: Discord.Message) => m.author.id === msg.author.id;
+		if (selectedRoles.length === 0 && !roleMention.mentions.everyone)
+			return msg.channel.send("Invalid role. Timer cancelled");
 
-		let description: string;
+		const channelMention = await getInput(
+			"Channel",
+			"Please specify a **channel** by mentioning the channel",
+			msg
+		);
 
-		try {
-			const collected = await msg.channel.awaitMessages(filter, {
-				max: 1,
-				time: periods.minute,
-				errors: ["time"]
-			});
+		const selectedChannel = channelMention.mentions.channels.first();
+		if (!selectedChannel)
+			return msg.channel.send("Invalid channel. Timer cancelled");
 
-			description = collected.first().content
 
-		} catch {
-			msg.channel.send("Time's up, timer cancelled");
-			return;
-		}
+		if (selectedChannel.type !== "text")
+			return msg.channel.send("Cannot send to non-text channel");
 
 		const countdown = convert(duration);
-		const timerMsg = await msg.channel.send(
-			countdownBanner(countdown, msg.author.username, description)
+
+		const timerMsg = await ((selectedChannel as any) as Discord.TextChannel).send(
+			countdownBanner(countdown, msg.author.username, description.content)
 		);
 
 		const timer = new timerDb({
@@ -78,16 +89,27 @@ export default {
 			userId: msg.author.id,
 			guildId: timerMsg.guild.id,
 			timePosted: currTime,
-			username: msg.author.username,
+			username: msg.member.nickname || msg.author.username,
 			description,
 			duration,
 			messageId: timerMsg.id,
 			messageUrl: timerMsg.url,
-			channelId: timerMsg.channel.id,
+			channelId: selectedChannel.id,
+			rolesId: selectedRoles,
+			mentionEveryone: roleMention.mentions.everyone,
 			completed: false
 		});
 
 		timer.save().catch(e => console.error(e));
+
+		const timerCreated = new Discord.RichEmbed()
+			.setColor(color.blue)
+			.addField(
+				"Timer created",
+				`[Timer](${timerMsg.url}) has been created successfully`
+			);
+
+		msg.channel.send(timerCreated);
 	}
 };
 
@@ -177,4 +199,26 @@ async function cancelTimer(args: string[], msg: Discord.Message) {
 			`[Timer](${timer.messageUrl}) has been cancelled`
 		);
 	msg.channel.send(infoEmbed);
+}
+
+async function getInput(
+	title: string,
+	description: string,
+	msg: Discord.Message
+) {
+	const confirmEmbed = new Discord.RichEmbed()
+		.setColor(color.blue)
+		.addField(title, description);
+
+	await msg.channel.send(confirmEmbed);
+
+	const filter = (m: Discord.Message) => m.author.id === msg.author.id;
+
+	const collected = await msg.channel.awaitMessages(filter, {
+		max: 1,
+		time: periods.minute,
+		errors: ["time"]
+	});
+
+	return collected.first();
 }

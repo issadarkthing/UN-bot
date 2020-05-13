@@ -12,6 +12,8 @@ const schema = new Schema({
 	description: String,
 	messageUrl: String,
 	channelId: String,
+	rolesId: Array,
+	mentionEveryone: Boolean,
 	completed: Boolean
 })
 
@@ -30,5 +32,7 @@ export interface TimerDb {
 	messageUrl: string;
 	channelId: string;
 	completed: boolean;
+	rolesId: string[];
+	mentionEveryone: boolean;
 	save(): void;
 }

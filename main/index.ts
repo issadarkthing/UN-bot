@@ -34,7 +34,7 @@ for (const file of commandFiles) {
 bot.on("ready", () => {
 	console.log("Bot has started!");
 	bot.user.setActivity("Habbo", { type: "PLAYING" });
-	runTimerUpdate(periods.minute, bot);
+	runTimerUpdate(periods.minute / 2, bot);
 });
 
 bot.on(
