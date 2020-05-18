@@ -29,7 +29,8 @@ export const big_three_id = {
 
 export const role_id: { [key: string]: string } = {
 	ooa_id: "588651986786975744",
-	owner_id: "378745839947874304"
+	owner_id: "378745839947874304",
+	team_coach: "693373770219388958"
 }
 
 export const timeAbbv: { [key: string]: string } = {
