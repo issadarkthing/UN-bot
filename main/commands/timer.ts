@@ -115,8 +115,13 @@ export default {
 
 //returns unix time
 function parseInput(input: string) {
+	// slice from start until second last character of string
+	// example 12h -> 12
 	const ptime = parseInt(input.substring(0, input.length - 1));
+	// converts `h` to number equivalent in unix time (ms)
+	// example `h` -> 60 * 60 * 1000
 	const speriod = periods[timeAbbv[input[input.length - 1]]];
+	// calculate total time
 	const result = ptime * speriod;
 	if (!result) throw Error;
 	return result;
