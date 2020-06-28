@@ -1,4 +1,4 @@
-import Discord, { BaseOpus } from "discord.js";
+import Discord from "discord.js";
 import { big_three_id } from "./utils";
 
 export default {
@@ -63,7 +63,7 @@ export default {
 			channel.guild.emojis.find(e => e.id === "606919195279491118") || "";
 		const nitroEmoji =
 			channel.guild.emojis.find(e => e.id === "616293973484371988") || "";
-		const everyone = channel.guild.defaultRole;
+		const everyone = "@here";
 
 		const embed = new Discord.RichEmbed()
 			.setColor("3232FF")
