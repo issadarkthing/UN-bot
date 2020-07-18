@@ -26,66 +26,80 @@ export default {
 		if (!SERVER_ID || !CHANNEL_ID || !BOOST_ROLE_ID || !ADMIN_ID)
 			throw Error("No process env specified");
 
+		// make announcement using command
 		if (msg && args) {
+
+			// only few people can use this command
+			// including me
 			if (
 				!ADMINS_ID.includes(msg.author.id) &&
 				args[0] !== "boost" &&
 				msg.author.id !== ADMIN_ID
-			)
-				return;
-			const _channel = msg.client.guilds
-				.get(SERVER_ID)
+			) return;
+
+
+			// check if channel exists
+			const tmpChan = msg.client.guilds.get(SERVER_ID)
 				?.channels.get(CHANNEL_ID);
-			if (!_channel) throw Error("Channel not found");
-			channel = _channel;
-			const _member = msg.client.guilds
-				.get(SERVER_ID)
+
+			if (!tmpChan) return msg.channel.send("Channel not found");
+
+			channel = tmpChan;
+
+			// check if member exists
+			const tmpMember = msg.client.guilds.get(SERVER_ID)
 				?.members.get(args[1]);
-			if (!_member) return msg.channel.send("Member not found");
-			member = _member;
+
+			if (!tmpMember) return msg.channel.send("Member not found");
+
+			member = tmpMember;
+
 		} else if (
+			// check if role has changed from no boost role to boost role
 			oldMember?.roles.has(BOOST_ROLE_ID) === false &&
 			newMember?.roles.has(BOOST_ROLE_ID) === true
 		) {
-			const _channel = newMember.client.guilds
-				.get(SERVER_ID)
+			const _channel = newMember.client.guilds.get(SERVER_ID)
 				?.channels.get(CHANNEL_ID);
+
 			if (!_channel) throw Error("Channel not found");
+
 			channel = _channel;
 			member = newMember;
+
 		} else return;
 
-		const emoji =
-			channel.guild.emojis.find(e => e.name === "boosting") || "";
+		const boostEmoji =
+			channel.guild.emojis.find(e => e.name === "boosting") || "🎉";
 		const gbEmoji =
 			channel.guild.emojis.find(e => e.id === "479631989335654430") || "";
 		const HCEmoji =
 			channel.guild.emojis.find(e => e.id === "606919195279491118") || "";
 		const nitroEmoji =
 			channel.guild.emojis.find(e => e.id === "616293973484371988") || "";
-		const everyone = "@here";
+
+
+		const title = `${nitroEmoji} 🎉 ${member.displayName} just boosted the server! 🎉`
+		const desc = `Thank you for contributing, you will receive your own unique emoji, updated nickname, 50c ${gbEmoji} and 31 days of HC ${HCEmoji}`
+
+		const color = "3232FF"
 
 		const embed = new Discord.RichEmbed()
-			.setColor("3232FF")
+			.setColor(color)
 			.setThumbnail(member.user.avatarURL)
-			.addField(
-				`${nitroEmoji} 🎉 ${member.displayName} just boosted the server! 🎉`,
-				`
-Thank you for contributing, you will receive your own unique emoji, updated nickname, 50c ${gbEmoji} and 31 days of HC ${HCEmoji}`
-			);
-		(channel as Discord.TextChannel)
-			.send(`**Announcement** ${everyone}`)
-			.catch(e => {
-				console.log(e);
-			});
-		(channel as Discord.TextChannel).send(embed).then(m =>
-			(m as Discord.Message)
-				.react("😱")
-				.then(() => (m as Discord.Message).react("❤"))
-				.then(() => (m as Discord.Message).react("😍"))
-				.then(() => (m as Discord.Message).react("🔥"))
-				.then(() => (m as Discord.Message).react("🍌"))
-				.then(() => (m as Discord.Message).react(emoji || "👍"))
-		);
+			.addField(title, desc);
+
+
+		(channel as Discord.TextChannel).send("**Announcement** @here");
+
+
+		const m = await (channel as Discord.TextChannel).send(embed)
+
+		const emojis = ["😱", "❤", "😍", "🔥", "🍌", boostEmoji]
+
+		emojis.forEach(v => {
+			m.react(v)
+		})
+
 	}
 };

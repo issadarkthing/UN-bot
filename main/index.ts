@@ -6,13 +6,17 @@ import { runTimerUpdate } from "./src/timerUpdate";
 import { periods } from "./src/utils";
 
 const bot = new Discord.Client();
-const TOKEN = process.env.TOKEN || "";
+
+const TOKEN = process.env.TOKEN
 const uri = process.env.MONGODB_URI;
 const PREFIX = process.env.PREFIX || "$";
 
-if (!uri) throw Error("No mongodb uri");
+if (!TOKEN) throw Error("No Discord bot token");
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+if (uri) {
+	mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+}
+
 
 interface Command {
 	name: string;
@@ -24,8 +28,8 @@ interface Command {
 //loads commands
 const commands = new Discord.Collection<string, Command>();
 const commandFiles = fs
-	.readdirSync(__dirname + "/commands")
-	.filter(file => file.endsWith(".js"));
+.readdirSync(__dirname + "/commands")
+.filter(file => file.endsWith(".js"));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	commands.set(command.default.name, command.default);

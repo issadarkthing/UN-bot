@@ -14,7 +14,11 @@ import {
 export default {
 	name: "timer",
 	async execute(msg: Discord.Message, args: string[]) {
+
+		if (!process.env.MONGODB_URI) return msg.channel.send("No mongodb uri specified")
+
 		let hasValidRole = false;
+
 		for (const key in role_id) {
 			hasValidRole = msg.member.roles.has(role_id[key]);
 		}
